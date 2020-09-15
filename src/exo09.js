@@ -3,9 +3,18 @@ export function parseUserData(data) {
   // et ces valeurs par défaut pour les propriétés manquantes :
   const defaults = { name: "Anonymous", isAdmin: false };
 
-  // 1 - en utilisant Object.assign
-  // 2 - en utilisant l'opérateur spread sur les properties
-  // 3 - en utilisant le destructuring et les paramètres par défaut pour parseUserData
+  // solution 1 : en utilisant Object.assign
+  //return Object.assign({}, defaults, data);
 
-  return data;
+  // solution 2 : en utilisant l'opérateur spread sur les properties
+  return { ...defaults, ...data };
+}
+
+// solution 3 : en utilisant le destructuring et les paramètres par défaut pour parseUserData
+export function parseUserData2({
+  name = "Anonymous",
+  isAdmin = false,
+  ...rest
+}) {
+  return { name, isAdmin, ...rest };
 }
