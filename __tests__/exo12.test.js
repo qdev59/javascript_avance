@@ -6,11 +6,11 @@ test("PubSub", () => {
   const canal1 = [],
     canal2 = [],
     all = [];
-  emitter.on("event1", data => canal1.push(data));
-  emitter.on("event2", data => canal2.push(data));
+  emitter.on("event1", (data) => canal1.push(data));
+  emitter.on("event2", (data) => canal2.push(data));
 
-  emitter.on("event1", data => all.push(data));
-  emitter.on("event2", data => all.push(data));
+  emitter.on("event1", (data) => all.push(data));
+  emitter.on("event2", (data) => all.push(data));
 
   emitter.emit("event1", 1);
   emitter.emit("event2", 2);
