@@ -27,7 +27,13 @@ export function User(first, name, rights) {
 }
 
 // TODO: définir Person.prototype comme prototype de User.prototype
+// solution 1
+User.prototype = Object.create(Person.prototype);
+User.prototype.constructor = Person;
+
+// solution 2
 Object.setPrototypeOf(User.prototype, Person.prototype);
+
 Object.assign(User.prototype, {
   rights: [],
   hasRight(right) {

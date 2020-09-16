@@ -2,6 +2,7 @@ const Component = {
   name: "generic-component",
   tag: "div",
   render() {
+    console.log(`render ${this.tag}`);
     this.elm = document.createElement(this.tag);
     this.elm.className = this.name;
     document.body.appendChild(this.elm);
@@ -10,7 +11,7 @@ const Component = {
 
 const Clickable = {
   listenToClickEvents(elm) {
-    elm.addEventListener("click", event => this.onClick(event));
+    elm.addEventListener("click", (event) => this.onClick(event));
   },
   onClick(event) {
     console.log("click event", event);
@@ -19,8 +20,8 @@ const Clickable = {
 
 const Focusable = {
   listenToFocusEvents(elm) {
-    elm.addEventListener("focus", event => this.onFocus(event));
-    elm.addEventListener("blur", event => this.onBlur(event));
+    elm.addEventListener("focus", (event) => this.onFocus(event));
+    elm.addEventListener("blur", (event) => this.onBlur(event));
   },
   onFocus(event) {
     console.log("focus event", event);
@@ -32,7 +33,7 @@ const Focusable = {
 
 const Editable = {
   listenToKeyboardEvents(elm) {
-    elm.addEventListener("keyup", event => this.onKey(event));
+    elm.addEventListener("keyup", (event) => this.onKey(event));
   },
   onKey(event) {
     console.log("key pressed", event);
@@ -47,9 +48,13 @@ const Button = {
     super.render();
     this.elm.textContent = this.text;
     // TODO: écouter les événements clic et focus
+    this.listenToClickEvents(this.elm);
+    this.listenToFocusEvents(this.elm);
     return this.elm;
   }
 };
+Object.setPrototypeOf(Button, Component);
+Object.assign(Button, Focusable, Clickable);
 
 const Input = {
   value: null,
@@ -58,9 +63,14 @@ const Input = {
     super.render();
     this.elm.value = this.value;
     // TODO: écouter les événements keyup et focus
+    this.listenToKeyboardEvents(this.elm);
+    this.listenToFocusEvents(this.elm);
     return this.elm;
-  }
+  },
+  ...Focusable,
+  ...Editable
 };
+Object.setPrototypeOf(Input, Component);
 
 const TextInput = {
   name: "text-input",
@@ -68,6 +78,7 @@ const TextInput = {
     this.value = event.target.value;
   }
 };
+Object.setPrototypeOf(TextInput, Input);
 
 //TODO: établir et coder les relations entre les différents objets: délégation, composition ou encapsulation
 
